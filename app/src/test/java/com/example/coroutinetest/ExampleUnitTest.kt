@@ -32,16 +32,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun `2) runTest success`() = runTest {
-        Thread.sleep(1000)
-
-        assertTrue(
-            true
-        )
-    }
-
-    @Test
-    fun `3) failure with runtest`() = runTest {
+    fun `2) failure with runtest`() = runTest {
         val viewModel =
             MyViewModel()
 
