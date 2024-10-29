@@ -21,12 +21,12 @@ class ExampleUnitTest {
     val coroutineRule = MainCoroutineRule()
 
     @Test
-    fun `0) no runtest success`() = runTest {
+    fun `1) no runtest success`() = runTest {
         assertTrue(true)
     }
 
     @Test
-    fun `1) no runtest success`() {
+    fun `2) no runtest success`() {
         val viewModel =
             MyViewModel()
 
@@ -34,7 +34,7 @@ class ExampleUnitTest {
     }
 
     @Test
-    fun `2) runTest success`() = runTest {
+    fun `3) runTest failure before starting`() = runTest {
         assertTrue(
             true
         )
