@@ -1,12 +1,22 @@
 package com.example.coroutinetest
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.mockk.mockk
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.test.setMain
 import org.junit.Test
 
 import org.junit.Assert.*
 import org.junit.FixMethodOrder
 import org.junit.Rule
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 import org.junit.runner.OrderWith
 import org.junit.runners.MethodSorters
 
@@ -38,5 +48,26 @@ class ExampleUnitTest {
         assertTrue(
             true
         )
+    }
+}
+
+class MyViewModel : ViewModel() {
+    fun fetch() {
+        viewModelScope.launch {
+            throw Exception("test")
+        }
+    }
+}
+
+class MainCoroutineRule(val dispatcher: TestDispatcher = UnconfinedTestDispatcher()) :
+    TestWatcher() {
+    override fun starting(description: Description?) {
+        super.starting(description)
+        Dispatchers.setMain(dispatcher)
+    }
+
+    override fun finished(description: Description?) {
+        super.finished(description)
+        Dispatchers.resetMain()
     }
 }
