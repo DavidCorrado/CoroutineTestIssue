@@ -1,5 +1,6 @@
 package com.example.coroutinetest
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.mockk.mockk
@@ -15,6 +16,7 @@ import org.junit.Test
 import org.junit.Assert.*
 import org.junit.FixMethodOrder
 import org.junit.Rule
+import org.junit.rules.TestRule
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import org.junit.runner.OrderWith
@@ -29,6 +31,9 @@ import org.junit.runners.MethodSorters
 class ExampleUnitTest {
     @get:Rule
     val coroutineRule = MainCoroutineRule()
+
+    @get:Rule
+    var rule: TestRule = InstantTaskExecutorRule()
 
     @Test
     fun `1) no runtest success`() = runTest {
