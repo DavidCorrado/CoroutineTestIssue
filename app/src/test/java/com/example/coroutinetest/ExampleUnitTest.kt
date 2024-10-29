@@ -2,8 +2,11 @@ package com.example.coroutinetest
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.mockk.mockk
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -17,8 +20,8 @@ import org.junit.FixMethodOrder
 import org.junit.Rule
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
-import org.junit.runner.OrderWith
 import org.junit.runners.MethodSorters
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -27,47 +30,21 @@ import org.junit.runners.MethodSorters
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 class ExampleUnitTest {
-    @get:Rule
-    val coroutineRule = MainCoroutineRule()
-
     @Test
     fun `1) no runtest success`() = runTest {
         assertTrue(true)
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     @Test
     fun `2) no runtest success`() {
-        val viewModel =
-            MyViewModel()
-
-        viewModel.fetch()
+        GlobalScope.launch {
+            throw Exception("test")
+        }
     }
 
     @Test
     fun `3) runTest failure before starting`() = runTest {
-        assertTrue(
-            true
-        )
-    }
-}
-
-class MyViewModel : ViewModel() {
-    fun fetch() {
-        viewModelScope.launch {
-            throw Exception("test")
-        }
-    }
-}
-
-class MainCoroutineRule(val dispatcher: TestDispatcher = UnconfinedTestDispatcher()) :
-    TestWatcher() {
-    override fun starting(description: Description?) {
-        super.starting(description)
-        Dispatchers.setMain(dispatcher)
-    }
-
-    override fun finished(description: Description?) {
-        super.finished(description)
-        Dispatchers.resetMain()
+        assertTrue(true)
     }
 }
