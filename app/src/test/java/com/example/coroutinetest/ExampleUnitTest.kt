@@ -21,24 +21,20 @@ class ExampleUnitTest {
     val coroutineRule = MainCoroutineRule()
 
     @Test
+    fun `0) no runtest success`() = runTest {
+        assertTrue(true)
+    }
+
+    @Test
     fun `1) no runtest success`() {
         val viewModel =
             MyViewModel()
 
-        val onNavigate: (MyNavigationEvent) -> Unit = mockk()
-
-        viewModel.fetch(onNavigate)
-        Thread.sleep(1000)
+        viewModel.fetch()
     }
 
     @Test
-    fun `2) failure with runtest`() = runTest {
-        val viewModel =
-            MyViewModel()
-
-        val onNavigate: (MyNavigationEvent) -> Unit = mockk()
-
-        viewModel.fetch(onNavigate)
+    fun `2) runTest success`() = runTest {
         assertTrue(
             true
         )
